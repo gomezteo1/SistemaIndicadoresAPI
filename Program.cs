@@ -1,6 +1,7 @@
 using SistemaIndicadoresAPI.Data;
 using Microsoft.EntityFrameworkCore;
 
+
 var builder = WebApplication.CreateBuilder(args);
 //permi api
 var corsPolicy = "_myAllowSpecificOrigins";
@@ -14,6 +15,8 @@ builder.Services.AddCors(options =>
                   .AllowAnyHeader();
         });
 });
+//Esta linea nos va a permiter que el api use los repositorios
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
 // Agregar esto antes de "app.UseAuthorization();"
 // Configurar la conexión a la base de datos

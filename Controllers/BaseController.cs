@@ -32,7 +32,11 @@ public class BaseController<T> : ControllerBase where T : class
     public async Task<ActionResult<T>> Create(T entity)
     {
         await _repository.AddAsync(entity);
-        return CreatedAtAction(nameof(GetById), new { id = entity.GetType().GetProperty("Id")?.GetValue(entity) }, entity);
+        
+        // Obtener el ID generado
+        var entityId = entity.GetType().GetProperty("Id")?.GetValue(entity);
+
+        return CreatedAtAction(nameof(GetById), new { id = entityId }, entity);
     }
 
     [HttpPut("{id}")]

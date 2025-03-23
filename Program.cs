@@ -27,7 +27,21 @@ builder.Services.AddDbContext<SistemaIndicadoresContext>(options =>
 // Agregar controladores y servicios
 builder.Services.AddControllers();
 
-var app = builder.Build();
+var app = builder.Build(services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = "tu_issuer",
+            ValidAudience = "tu_audience",
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("clave_secreta"))
+        };
+    });
+);
 app.UseCors(corsPolicy);
 // Configurar Middleware
 app.UseHttpsRedirection();

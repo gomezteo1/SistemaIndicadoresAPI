@@ -23,15 +23,12 @@ namespace SistemaIndicadoresAPI.Data
         public DbSet<Fuente> Fuente { get; set; }
         public DbSet<TipoActor> TipoActor { get; set; }
         public DbSet<TipoIndicador> TipoIndicador { get; set; }
-        public DbSet<TipoIndicador> TipoIndicadores { get; set; }
-
         public DbSet<UnidadMedicion> UnidadesMedicion { get; set; }
-        public DbSet<UnidadMedicion> UnidadMedicion { get; set; } = null!;
+        public DbSet<UnidadMedicion> UnidadMedicion { get; set; }
         public DbSet<Usuario> Usuario { get; set; }
         public DbSet<Variable> Variable { get; set; }
         public DbSet<VariablesPorIndicador> VariablesPorIndicador { get; set; }
         public DbSet<Frecuencia> Frecuencia { get; set; }
-        
         public DbSet<Actor> Actor { get; set; }
         public DbSet<Articulo> Articulo { get; set; }
 

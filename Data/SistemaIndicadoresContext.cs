@@ -31,5 +31,8 @@ namespace SistemaIndicadoresAPI.Data
         public DbSet<Variable> Variable { get; set; }
         public DbSet<VariablesPorIndicador> VariablesPorIndicador { get; set; }
         public DbSet<Frecuencia> Frecuencia { get; set; }
+        
+        public DbSet<Actor> Actor { get; set; }
+
     }
 }

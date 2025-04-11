@@ -8,7 +8,7 @@ public class Usuario
     [EmailAddress(ErrorMessage = "Formato de email inválido.")]
     public required string Email { get; set; }
     
-    [Required]
+
     [MaxLength(100)]
     [Required(ErrorMessage = "La contraseña es obligatoria.")]
     [MinLength(6, ErrorMessage = "La contraseña debe tener al menos 6 caracteres.")]

@@ -1,34 +1,43 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using SistemaIndicadoresAPI;
 using SistemaIndicadoresAPI.Data;
-using SistemaIndicadoresAPI.Models;
-using System.Collections.Generic;
-using System.Linq;
+using System;
 using System.Threading.Tasks;
 
-[Route("api/[controller]")]
-[ApiController]
-public class PruebaController : ControllerBase
+namespace SistemaIndicadoresAPI.Controllers
 {
-    private readonly SistemaIndicadoresContext _context;
-
-    public PruebaController(SistemaIndicadoresContext context)
+    [Route("api/[controller]")]
+    [ApiController]
+    public class PruebaController : ControllerBase
     {
-        _context = context;
-    }
+        private readonly SistemaIndicadoresContext _context;
 
-    [HttpGet("verificar-conexion")]
-    public async Task<IActionResult> VerificarConexion()
-    {
-        try
+        public PruebaController(SistemaIndicadoresContext context)
         {
-            var existeDatos = await _context.Indicador.AnyAsync();
-            return Ok(new { conexionExitosa = true, hayDatos = existeDatos });
+            _context = context;
         }
-        catch (Exception ex)
+
+        // GET: api/Prueba/verificar-conexion
+        [HttpGet("verificar-conexion")]
+        public async Task<IActionResult> VerificarConexion()
         {
-            return StatusCode(500, new { conexionExitosa = false, error = ex.Message });
+            try
+            {
+                bool hayDatos = await _context.Indicador.AnyAsync();
+                return Ok(new 
+                { 
+                    conexionExitosa = true, 
+                    hayDatos 
+                });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new 
+                { 
+                    conexionExitosa = false, 
+                    error = ex.Message 
+                });
+            }
         }
     }
 }

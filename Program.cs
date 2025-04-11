@@ -1,12 +1,13 @@
-using SistemaIndicadoresAPI.Data;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using SistemaIndicadoresAPI.Data;
+using SistemaIndicadoresAPI.Repositories;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Cors
+// 🌐 CORS
 var corsPolicy = "_myAllowSpecificOrigins";
 builder.Services.AddCors(options =>
 {
@@ -18,18 +19,18 @@ builder.Services.AddCors(options =>
     });
 });
 
-// Inyección de dependencias
-builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+// 🧩 Inyección de dependencias
+builder.Services.AddScoped(typeof(IRepository<,>), typeof(Repository<,>));
 
-// DbContext
+// 🗃️ DbContext
 builder.Services.AddDbContext<SistemaIndicadoresContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 
-// Controllers
+// 🚀 Controladores
 builder.Services.AddControllers();
 
-// 🔐 JWT Auth
+// 🔐 Autenticación JWT
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -41,16 +42,21 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateIssuerSigningKey = true,
             ValidIssuer = builder.Configuration["Jwt:Issuer"],
             ValidAudience = builder.Configuration["Jwt:Audience"],
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(
+                    builder.Configuration["Jwt:Key"]
+                    ?? throw new InvalidOperationException("JWT Key is missing in configuration.")
+                )
+            )
         };
     });
-// Build application pipeline
+
+// 🛠️ Construcción de la app
 var app = builder.Build();
 
-// Middleware
 app.UseCors(corsPolicy);
 app.UseHttpsRedirection();
-app.UseAuthentication(); // ✅ Importante: va antes que Authorization
+app.UseAuthentication(); // Siempre antes de Authorization
 app.UseAuthorization();
 
 app.MapControllers();

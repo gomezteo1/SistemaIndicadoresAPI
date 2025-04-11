@@ -1,15 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using SistemaIndicadoresAPI;
-using SistemaIndicadoresAPI.Data;
 using SistemaIndicadoresAPI.Models;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using SistemaIndicadoresAPI.Repositories;
 
 [Route("api/[controller]")]
-//se optimizo codigo
-public class RolController : BaseController<Rol>
+[ApiController]
+// se optimizó código
+public class RolController : BaseController<Rol, int>
 {
-    public RolController(IRepository<Rol> repository) : base(repository) { }
+    public RolController(IRepository<Rol, int> repository) : base(repository) { }
 }

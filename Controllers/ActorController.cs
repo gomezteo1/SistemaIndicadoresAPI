@@ -36,7 +36,7 @@ public class ActorController : ControllerBase
             .Include(a => a.TipoActor)
             .FirstOrDefaultAsync(a => a.Id == id);
 
-        if (actor == null)
+        if (string.IsNullOrEmpty(actor.Id))
         {
             return NotFound();
         }

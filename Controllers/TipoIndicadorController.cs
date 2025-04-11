@@ -1,15 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using SistemaIndicadoresAPI;
-using SistemaIndicadoresAPI.Data;
 using SistemaIndicadoresAPI.Models;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using SistemaIndicadoresAPI.Repositories; // <-- Agrega esto
 
-[Route("api/[controller]")]
-//se optimizo codigo
-public class TipoIndicadorController : BaseController<TipoIndicador>
+namespace SistemaIndicadoresAPI.Controllers
 {
-    public TipoIndicadorController(IRepository<TipoIndicador> repository) : base(repository) { }
+    [Route("api/[controller]")]
+    [ApiController]
+    public class TipoIndicadorController : BaseController<TipoIndicador, int>
+    {
+        public TipoIndicadorController(IRepository<TipoIndicador, int> repository) : base(repository) { }
+    }
 }

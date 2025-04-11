@@ -1,15 +1,25 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using SistemaIndicadoresAPI;
-using SistemaIndicadoresAPI.Data;
 using SistemaIndicadoresAPI.Models;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using SistemaIndicadoresAPI.Repositories;
 
-[Route("api/[controller]")]
-//se optimizo codigo
-public class SentidoController : BaseController<Sentido>
+namespace SistemaIndicadoresAPI.Controllers
 {
-    public SentidoController(IRepository<Sentido> repository) : base(repository) { }
+    [Route("api/[controller]")]
+    [ApiController]
+    public class SentidoController : ControllerBase
+    {
+        private readonly IRepository<Sentido, int> _repository;
+
+        public SentidoController(IRepository<Sentido, int> repository)
+        {
+            _repository = repository;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var sentidos = await _repository.GetAllAsync();
+            return Ok(sentidos);
+        }
+    }
 }

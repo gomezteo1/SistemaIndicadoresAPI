@@ -4,13 +4,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 public class ResponsablesPorIndicador
 {
     [Key]
-    public string Id { get; set; }
+    public required string Id { get; set; }
 
-    public int IndicadorId { get; set; }
+    public required int IndicadorId { get; set; }
     [ForeignKey("IndicadorId")]
     public required virtual Indicador Indicador { get; set; }
 
-    public string ActorId { get; set; }
+    public required string ActorId { get; set; }
     [ForeignKey("ActorId")]
     public required virtual Actor Actor { get; set; }
 }

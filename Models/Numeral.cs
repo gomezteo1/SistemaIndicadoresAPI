@@ -4,11 +4,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 public class Numeral
 {
     [Key]
-    public int Id { get; set; }
+    public string? Id { get; set; }
 
     public required string Nombre { get; set; }
 
-    public int LiteralId { get; set; }
+    public string? LiteralId { get; set; }
     [ForeignKey("LiteralId")]
     public required virtual Literal Literal { get; set; }
 }

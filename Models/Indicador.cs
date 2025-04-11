@@ -1,47 +1,68 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using SistemaIndicadoresAPI.Models;
+using System.Text.Json.Serialization;
 
-//Modelo: Indicador.cs (Depende de varias tablas) 
-//Tabla fuerte o negocio
 public class Indicador
 {
     [Key]
     public int Id { get; set; }
 
-    [Required]
+    
+    [MaxLength(50)]
+    public  string? Codigo { get; set; }
+
+    
     [MaxLength(200)]
-    public required string Nombre { get; set; }
+    public  string? Nombre { get; set; }
 
-    public int TipoIndicadorId { get; set; }
-    [ForeignKey("TipoIndicadorId")]
-    public required  virtual TipoIndicador TipoIndicador { get; set; }
+    [MaxLength(500)]
+    public string? Objetivo { get; set; }
 
-    public int UnidadMedicionId { get; set; }
-    [ForeignKey("UnidadMedicionId")]
-    public required virtual UnidadMedicion UnidadMedicion { get; set; }
+    [MaxLength(500)]
+    public string? Alcance { get; set; }
 
-    public int? SentidoId { get; set; }
-    [ForeignKey("SentidoId")]
-    public required virtual Sentido Sentido { get; set; }
+    [MaxLength(500)]
+    public string? Formula { get; set; }
 
-    public int FrecuenciaId { get; set; }
-    [ForeignKey("FrecuenciaId")]
-    public required virtual Frecuencia Frecuencia { get; set; }
+    public int FkIdTipoIndicador { get; set; }
+    [JsonIgnore]
+    [ForeignKey("FkIdTipoIndicador")]
+    public  virtual TipoIndicador? TipoIndicador { get; set; }
 
-    public string? ArticuloId { get; set; }
-    [ForeignKey("ArticuloId")]
+    public int FkIdUnidadMedicion { get; set; }
+    [JsonIgnore]
+    [ForeignKey("FkIdUnidadMedicion")]
+    public virtual UnidadMedicion? UnidadMedicion { get; set; }
+
+    public string? Meta { get; set; } // Antes decimal?, ahora string porque en DB es varchar
+
+    public int? FkIdSentido { get; set; }
+    [JsonIgnore]
+    [ForeignKey("FkIdSentido")]
+    public virtual Sentido? Sentido { get; set; }
+
+    public int FkIdFrecuencia { get; set; }
+    [JsonIgnore]
+    [ForeignKey("FkIdFrecuencia")]
+    public virtual Frecuencia? Frecuencia { get; set; }
+
+    public string? FkIdArticulo { get; set; }
+    [JsonIgnore]
+    [ForeignKey("FkIdArticulo")]
     public virtual Articulo? Articulo { get; set; }
 
-    public int? LiteralId { get; set; }
-    [ForeignKey("LiteralId")]
+    public string? FkIdLiteral { get; set; } // Antes int?, ahora string
+    [JsonIgnore]
+    [ForeignKey("FkIdLiteral")]
     public virtual Literal? Literal { get; set; }
 
-    public int? NumeralId { get; set; }
-    [ForeignKey("NumeralId")]
+    public string? FkIdNumeral { get; set; } // Antes int?, ahora string
+    [JsonIgnore]
+    [ForeignKey("FkIdNumeral")]
     public virtual Numeral? Numeral { get; set; }
 
-    public int? ParagrafoId { get; set; }
-    [ForeignKey("ParagrafoId")]
+    public string? FkIdParagrafo { get; set; } // Antes int?, ahora string
+    [JsonIgnore]
+    [ForeignKey("FkIdParagrafo")]
     public virtual Paragrafo? Paragrafo { get; set; }
 }

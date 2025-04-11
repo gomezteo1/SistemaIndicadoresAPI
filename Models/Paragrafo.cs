@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 public class Paragrafo
 {
     [Key]
-    public int Id { get; set; }
+    public string Id { get; set; }
 
     public required string Nombre { get; set; }
 

@@ -30,7 +30,7 @@ public class ActorController : ControllerBase
 
     // GET: api/actor/{id}
     [HttpGet("{id}")]
-    public async Task<ActionResult<Actor>> GetActor(int id)
+    public async Task<ActionResult<Actor>> GetActor(string id)
     {
         var actor = await _context.Actor
             .Include(a => a.TipoActor)
@@ -43,6 +43,7 @@ public class ActorController : ControllerBase
 
         return actor;
     }
+
 
     // POST: api/actor
     [HttpPost]

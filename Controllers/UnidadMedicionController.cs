@@ -1,15 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using SistemaIndicadoresAPI;
-using SistemaIndicadoresAPI.Data;
 using SistemaIndicadoresAPI.Models;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using SistemaIndicadoresAPI.Repositories;
 
-[Route("api/[controller]")]
-//se optimizo codigo
-public class UnidadMedicionController : BaseController<UnidadMedicion>
+namespace SistemaIndicadoresAPI.Controllers
 {
-    public UnidadMedicionController(IRepository<UnidadMedicion> repository) : base(repository) { }
+    [Route("api/[controller]")]
+    [ApiController]
+    public class UnidadMedicionController : BaseController<UnidadMedicion, int>
+    {
+        public UnidadMedicionController(IRepository<UnidadMedicion, int> repository) : base(repository) { }
+    }
 }

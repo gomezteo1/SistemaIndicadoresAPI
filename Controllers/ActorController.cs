@@ -30,13 +30,13 @@ public class ActorController : ControllerBase
 
     // GET: api/actor/{id}
     [HttpGet("{id}")]
-    public async Task<ActionResult<Actor>> GetActor(int id)
+    public async Task<ActionResult<Actor>> GetActor(string id)
     {
         var actor = await _context.Actor
             .Include(a => a.TipoActor)
             .FirstOrDefaultAsync(a => a.Id == id);
 
-        if (actor == null)
+        if (string.IsNullOrEmpty(actor.Id))
         {
             return NotFound();
         }

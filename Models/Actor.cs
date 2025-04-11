@@ -1,5 +1,10 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
+using SistemaIndicadoresAPI.Data;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
 public class Actor
 {
     [Key]
@@ -10,7 +15,7 @@ public class Actor
     [ForeignKey("FkIdTipoActor")]
     public int FkIdTipoActor { get; set; } 
 
-    public TipoActor? TipoActor { get; set; } = null!;
+    public required TipoActor? TipoActor { get; set; } = null!;
 }
 
 

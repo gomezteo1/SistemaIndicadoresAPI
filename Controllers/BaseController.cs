@@ -1,14 +1,15 @@
 using Microsoft.AspNetCore.Mvc;
+using SistemaIndicadoresAPI.Repositories; 
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 [Route("api/[controller]")]
 [ApiController]
-public class BaseController<T> : ControllerBase where T : class
+public class BaseController<T, TKey> : ControllerBase where T : class
 {
-    private readonly IRepository<T> _repository;
+    private readonly IRepository<T, TKey> _repository;
 
-    public BaseController(IRepository<T> repository)
+    public BaseController(IRepository<T, TKey> repository)
     {
         _repository = repository;
     }
@@ -21,7 +22,7 @@ public class BaseController<T> : ControllerBase where T : class
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<T>> GetById(int id)
+    public async Task<ActionResult<T>> GetById(TKey id)
     {
         var item = await _repository.GetByIdAsync(id);
         if (item == null) return NotFound();
@@ -32,15 +33,12 @@ public class BaseController<T> : ControllerBase where T : class
     public async Task<ActionResult<T>> Create(T entity)
     {
         await _repository.AddAsync(entity);
-        
-        // Obtener el ID generado
         var entityId = entity.GetType().GetProperty("Id")?.GetValue(entity);
-
         return CreatedAtAction(nameof(GetById), new { id = entityId }, entity);
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> Update(int id, T entity)
+    public async Task<IActionResult> Update(TKey id, T entity)
     {
         if (!await _repository.ExistsAsync(id)) return NotFound();
         await _repository.UpdateAsync(entity);
@@ -48,7 +46,7 @@ public class BaseController<T> : ControllerBase where T : class
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete(int id)
+    public async Task<IActionResult> Delete(TKey id)
     {
         if (!await _repository.ExistsAsync(id)) return NotFound();
         await _repository.DeleteAsync(id);

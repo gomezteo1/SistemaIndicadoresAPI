@@ -1,16 +1,17 @@
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 public class RepresenVisualPorIndicador
 {
-    [Key]
-    public int Id { get; set; }
+    public int FkIdIndicador { get; set; }
 
-    public int IndicadorId { get; set; }
-    [ForeignKey("IndicadorId")]
-    public required virtual Indicador Indicador { get; set; }
+    [JsonIgnore]
+    [ForeignKey("FkIdIndicador")]
+    public virtual Indicador? Indicador { get; set; }
 
-    public int RepresenVisualId { get; set; }
-    [ForeignKey("RepresenVisualId")]
-    public required virtual RepresenVisual RepresenVisual { get; set; }
+    public int FkIdRepresenVisual { get; set; }
+
+    [JsonIgnore]
+    [ForeignKey("FkIdRepresenVisual")]
+    public virtual RepresenVisual? RepresenVisual { get; set; }
 }

@@ -1,6 +1,6 @@
-using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace SistemaIndicadoresAPI.Models
 {
@@ -8,16 +8,13 @@ namespace SistemaIndicadoresAPI.Models
     {
         [Key]
         public int Id { get; set; }
-
-        [Required]
         [StringLength(200)]
-        public string Nombre { get; set; } = string.Empty;
-
-        [Required]
+        public string? Nombre { get; set; }
         public DateTime FechaCreacion { get; set; }
+        public string? FkEmailUsuario { get; set; }
 
-        [Required]
-        [StringLength(100)]
-        public string FkEmailUsuario { get; set; } = string.Empty;
+        [JsonIgnore]
+        [ForeignKey("FkEmailUsuario")]
+        public Usuario? Usuario { get; set; }
     }
 }

@@ -1,32 +1,27 @@
-using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace SistemaIndicadoresAPI.Models
 {
-    public class VariablesPorIndicador
+    [Table("variablesporindicador")]
+    public class VariablePorIndicador
     {
         [Key]
         public int Id { get; set; }
-
-        [Required]
         public int FkIdVariable { get; set; }
-
-        [Required]
         public int FkIdIndicador { get; set; }
-
-        [Required]
-        public float Dato { get; set; }
-
-        [Required]
-        [StringLength(100)]
-        public string FkEmailUsuario { get; set; } = string.Empty;
-
-        [Required]
+        public double Dato { get; set; }
+        public string FkEmailUsuario { get; set; } = null!;
         public DateTime FechaDato { get; set; }
-
-        // Relaciones con las otras tablas (Opcional)
+        [JsonIgnore]
         [ForeignKey("FkIdVariable")]
-        public Variable? Variable { get; set; }
+        public virtual Variable? Variable { get; set; }
+        [JsonIgnore]
+        [ForeignKey("FkIdIndicador")]
+        public virtual Indicador? Indicador { get; set; }
+        [JsonIgnore]
+        [ForeignKey("FkEmailUsuario")]
+        public virtual Usuario? Usuario { get; set; }
     }
 }

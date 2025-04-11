@@ -1,16 +1,22 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-//Modelo: ResponsablesPorIndicador.cs (Depende de Indicador, Actor)
+using System.Text.Json.Serialization;
+
 public class ResponsablesPorIndicador
 {
-    [Key]
-    public required string Id { get; set; }
+    [Key, Column(Order = 0)]
+    public string FkIdResponsable { get; set; } = null!;
 
-    public required int IndicadorId { get; set; }
-    [ForeignKey("IndicadorId")]
-    public required virtual Indicador Indicador { get; set; }
+    [Key, Column(Order = 1)]
+    public int FkIdIndicador { get; set; }
 
-    public required string ActorId { get; set; }
-    [ForeignKey("ActorId")]
-    public required virtual Actor Actor { get; set; }
+    public DateTime FechaAsignacion { get; set; } = DateTime.Now;
+
+    [JsonIgnore]
+    [ForeignKey("FkIdResponsable")]
+    public virtual Usuario? Responsable { get; set; }
+
+    [JsonIgnore]
+    [ForeignKey("FkIdIndicador")]
+    public virtual Indicador? Indicador { get; set; }
 }

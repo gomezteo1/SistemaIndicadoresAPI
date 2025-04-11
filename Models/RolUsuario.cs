@@ -1,16 +1,17 @@
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
+using System.Text.Json.Serialization;
+[Table("rol_usuario")]
 public class RolUsuario
 {
-    [Key]
-    public int Id { get; set; }
+    public string FkEmail { get; set; } = null!;
 
-    public required string UsuarioEmail { get; set; }
-    [ForeignKey("UsuarioEmail")]
-    public required virtual Usuario Usuario { get; set; }
+    public int FkIdRol { get; set; }
 
-    public int RolId { get; set; }
-    [ForeignKey("RolId")]
-    public required virtual Rol Rol { get; set; }
+    [JsonIgnore]
+    [ForeignKey("FkEmail")]
+    public virtual Usuario? Usuario { get; set; }
+
+    [JsonIgnore]
+    [ForeignKey("FkIdRol")]
+    public virtual Rol? Rol { get; set; }
 }

@@ -1,15 +1,22 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-//Modelo: ResultadoIndicador.cs (Depende de Indicador)
+using System.Text.Json.Serialization;
+
 public class ResultadoIndicador
 {
     [Key]
     public int Id { get; set; }
 
-    public int IndicadorId { get; set; }
-    [ForeignKey("IndicadorId")]
-    public required virtual Indicador Indicador { get; set; }
+    [Required]
+    public double Resultado { get; set; }
 
-    public decimal Resultado { get; set; }
+    [Required]
     public DateTime FechaCalculo { get; set; }
+
+    [Required]
+    public int FkIdIndicador { get; set; }
+
+    [JsonIgnore]
+    [ForeignKey("FkIdIndicador")]
+    public virtual Indicador? Indicador { get; set; }
 }

@@ -12,5 +12,5 @@ public class Paragrafo
     public string? FkIdArticulo { get; set; }
     [JsonIgnore]
     [ForeignKey("FkIdArticulo")]
-    public required virtual Articulo Articulo { get; set; }
+    public virtual Articulo? Articulo { get; set; }
 }

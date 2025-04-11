@@ -6,7 +6,7 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// 🔹 Configuración CORS
+// Cors
 var corsPolicy = "_myAllowSpecificOrigins";
 builder.Services.AddCors(options =>
 {
@@ -18,18 +18,32 @@ builder.Services.AddCors(options =>
     });
 });
 
+<<<<<<< HEAD
 // 🔹 Inyección de dependencias de repositorios genéricos
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
 // 🔹 Configuración de la conexión a la base de datos
+=======
+// Inyección de dependencias
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+
+// DbContext
+>>>>>>> f3e8c11abece963b0bd2426c693c5ef2a08b0a8a
 builder.Services.AddDbContext<SistemaIndicadoresContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 
+<<<<<<< HEAD
 // 🔹 Agregar controladores
 builder.Services.AddControllers();
 
 // 🔹 Configurar Autenticación y JWT
+=======
+// Controllers
+builder.Services.AddControllers();
+
+// 🔐 JWT Auth
+>>>>>>> f3e8c11abece963b0bd2426c693c5ef2a08b0a8a
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -44,6 +58,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
         };
     });
+<<<<<<< HEAD
 
 // 🔹 Construir la aplicación
 var app = builder.Build();
@@ -52,7 +67,17 @@ var app = builder.Build();
 app.UseCors(corsPolicy);
 app.UseHttpsRedirection();
 app.UseAuthentication();  // 👈 Se agrega autenticación antes de autorización
+=======
+// Build application pipeline
+var app = builder.Build();
+
+// Middleware
+app.UseCors(corsPolicy);
+app.UseHttpsRedirection();
+app.UseAuthentication(); // ✅ Importante: va antes que Authorization
+>>>>>>> f3e8c11abece963b0bd2426c693c5ef2a08b0a8a
 app.UseAuthorization();
+
 app.MapControllers();
 app.MapGet("/", () => "¡Agárrense...! 🚀");
 

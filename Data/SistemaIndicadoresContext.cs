@@ -27,10 +27,69 @@ namespace SistemaIndicadoresAPI.Data
         public DbSet<UnidadMedicion> UnidadMedicion { get; set; }
         public DbSet<Usuario> Usuario { get; set; }
         public DbSet<Variable> Variable { get; set; }
-        public DbSet<VariablesPorIndicador> VariablesPorIndicador { get; set; }
+        public DbSet<VariablePorIndicador> VariablePorIndicador { get; set; }
         public DbSet<Frecuencia> Frecuencia { get; set; }
         public DbSet<Actor> Actor { get; set; }
         public DbSet<Articulo> Articulo { get; set; }
+        public DbSet<FuentesPorIndicador> FuentesPorIndicador { get; set; }
 
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            //* Configuración de la relación entre FuentesPorIndicador y Fuente
+            modelBuilder.Entity<FuentesPorIndicador>()
+                .HasKey(f => new { f.FkIdFuente, f.FkIdIndicador });
+
+            modelBuilder.Entity<FuentesPorIndicador>()
+                .HasOne(f => f.Fuente)
+                .WithMany() // o .WithMany(f => f.FuentesPorIndicadores) si Fuente tiene navegación
+                .HasForeignKey(f => f.FkIdFuente);
+
+            modelBuilder.Entity<FuentesPorIndicador>()
+                .HasOne(f => f.Indicador)
+                .WithMany() // o .WithMany(i => i.FuentesPorIndicadores) si Indicador tiene navegación
+                .HasForeignKey(f => f.FkIdIndicador);
+
+            //* Configuración de la relación entre RepresenVisualPorIndicador y RepresenVisual
+
+            modelBuilder.Entity<RepresenVisualPorIndicador>()
+                .HasKey(r => new { r.FkIdIndicador, r.FkIdRepresenVisual });
+
+            modelBuilder.Entity<RepresenVisualPorIndicador>()
+                .HasOne(r => r.Indicador)
+                .WithMany() // o .WithMany(x => x.RepresenVisualesPorIndicador) si hay colección en Indicador
+                .HasForeignKey(r => r.FkIdIndicador)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<RepresenVisualPorIndicador>()
+                .HasOne(r => r.RepresenVisual)
+                .WithMany() // o .WithMany(x => x.IndicadoresRelacionados) si hay colección en RepresenVisual
+                .HasForeignKey(r => r.FkIdRepresenVisual)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<ResponsablesPorIndicador>()
+                .HasKey(r => new { r.FkIdResponsable, r.FkIdIndicador });
+
+            // * Configuracion rol usuario 
+
+            modelBuilder.Entity<RolUsuario>()
+       .HasKey(ru => new { ru.FkEmail, ru.FkIdRol });
+
+            modelBuilder.Entity<RolUsuario>()
+                .HasOne(ru => ru.Usuario)
+                .WithMany() // o .WithMany(u => u.Roles) si tenés la propiedad en Usuario
+                .HasForeignKey(ru => ru.FkEmail)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<RolUsuario>()
+                .HasOne(ru => ru.Rol)
+                .WithMany() // o .WithMany(r => r.Usuarios) si tenés la propiedad en Rol
+                .HasForeignKey(ru => ru.FkIdRol)
+                .OnDelete(DeleteBehavior.Cascade);
+
+
+        }
     }
 }

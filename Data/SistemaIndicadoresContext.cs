@@ -33,6 +33,7 @@ namespace SistemaIndicadoresAPI.Data
         public DbSet<Frecuencia> Frecuencia { get; set; }
         
         public DbSet<Actor> Actor { get; set; }
+        public DbSet<Articulo> Articulo { get; set; }
 
     }
 }

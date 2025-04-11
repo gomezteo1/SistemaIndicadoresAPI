@@ -1,30 +1,18 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
+
 public class Actor
 {
     [Key]
-    public required string Id { get; set; } = string.Empty;
-    [Required]
+    public required string Id { get; set; }
+
     [StringLength(255)]
-    public string Nombre { get; set; }= string.Empty;
+    public required string Nombre { get; set; }
+
+    public int FkIdTipoActor { get; set; }
+
+    [JsonIgnore]
     [ForeignKey("FkIdTipoActor")]
-    public int FkIdTipoActor { get; set; } 
-
-    public TipoActor? TipoActor { get; set; } = null!;
+    public TipoActor? TipoActor { get; set; }
 }
-
-
-
-// public class Actor
-// {
-    
-//     public  string Id { get; set; }
-
- 
-//     public string Nombre { get; set; }
-
-//     public int FkIdTipoActor { get; set; }
-
-//     
-//     public TipoActor TipoActor { get; set; }
-// }

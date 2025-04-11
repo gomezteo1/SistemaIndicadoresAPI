@@ -4,17 +4,11 @@ using System.Text.Json.Serialization;
 public class Articulo
 {
     [Key]
-    public int Id { get; set; }
-
+    public string Id { get; set; }
     public string Nombre { get; set; }
-
-
-    public string? Descripcion { get; set; }
-
-
-    public int FkIdSeccion { get; set; }
-
-    public int FkIdSubseccion { get; set; }
+    public string Descripcion { get; set; }
+    public string FkIdSeccion { get; set; }
+    public string FkIdSubseccion { get; set; }
 
     [JsonIgnore]
     [ForeignKey("FkIdSeccion")]

@@ -29,7 +29,7 @@ public class Indicador
     [ForeignKey("FrecuenciaId")]
     public required virtual Frecuencia Frecuencia { get; set; }
 
-    public int? ArticuloId { get; set; }
+    public string? ArticuloId { get; set; }
     [ForeignKey("ArticuloId")]
     public virtual Articulo? Articulo { get; set; }
 

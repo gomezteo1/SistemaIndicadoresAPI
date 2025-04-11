@@ -8,7 +8,7 @@ public class Paragrafo
 
     public required string Nombre { get; set; }
 
-    public int ArticuloId { get; set; }
+    public string ArticuloId { get; set; }
     [ForeignKey("ArticuloId")]
     public required virtual Articulo Articulo { get; set; }
 }

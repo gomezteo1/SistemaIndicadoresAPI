@@ -14,7 +14,7 @@ public class ResponsablesPorIndicador
 
     [JsonIgnore]
     [ForeignKey("FkIdResponsable")]
-    public virtual Usuario? Responsable { get; set; }
+    public virtual Actor? Responsable { get; set; }
 
     [JsonIgnore]
     [ForeignKey("FkIdIndicador")]

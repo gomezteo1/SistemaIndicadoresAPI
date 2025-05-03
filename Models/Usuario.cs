@@ -11,4 +11,10 @@ public class Usuario
     [MaxLength(100)]
     [MinLength(6, ErrorMessage = "La contraseña debe tener al menos 6 caracteres.")]
     public required string Contrasena { get; set; }
+
+    // Propiedad de navegación
+    //public virtual ICollection<RolUsuario> RolUsuarios { get; set; } = new List<RolUsuario>();
+    [Required]
+    public ICollection<RolUsuario> RolUsuarios { get; set; } = new List<RolUsuario>();
+
 }

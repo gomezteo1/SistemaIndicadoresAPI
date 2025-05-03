@@ -11,7 +11,7 @@ public class RolUsuario
     [ForeignKey("FkEmail")]
     public virtual Usuario? Usuario { get; set; }
 
-    [JsonIgnore]
+    
     [ForeignKey("FkIdRol")]
     public virtual Rol? Rol { get; set; }
 }

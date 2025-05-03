@@ -13,8 +13,8 @@ public class Usuario
     public required string Contrasena { get; set; }
 
     // Propiedad de navegación
-    //public virtual ICollection<RolUsuario> RolUsuarios { get; set; } = new List<RolUsuario>();
     [Required]
     public ICollection<RolUsuario> RolUsuarios { get; set; } = new List<RolUsuario>();
+
 
 }

@@ -84,9 +84,10 @@ namespace SistemaIndicadoresAPI.Data
 
             modelBuilder.Entity<RolUsuario>()
                 .HasOne(ru => ru.Rol)
-                .WithMany() // puedes agregar .WithMany(r => r.RolUsuarios) si agregas colección en Rol
+                .WithMany(r => r.RolUsuarios) // puedes agregar .WithMany(r => r.RolUsuarios) si agregas colección en Rol
                 .HasForeignKey(ru => ru.FkIdRol)
                 .OnDelete(DeleteBehavior.Cascade);
+
         }
     }
 }

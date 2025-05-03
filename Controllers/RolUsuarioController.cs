@@ -23,6 +23,26 @@ namespace SistemaIndicadoresAPI.Controllers
             return await _context.RolUsuario.ToListAsync();
         }
 
+        // GET: api/RolUsuario/{email}
+        [HttpGet("{email}")]
+        public async Task<ActionResult<IEnumerable<RolUsuario>>> GetRolesByEmail(string email)
+        {
+            var rolesUsuario = await _context.RolUsuario
+                .Where(x => x.FkEmail == email)
+                .ToListAsync();
+
+            if (rolesUsuario == null || !rolesUsuario.Any())
+            {
+                return NotFound(new { message = "No se encontraron roles para este usuario." });
+            }
+
+            return rolesUsuario;
+        }
+
+
+
+
+
         // GET: api/RolUsuario/{email}/{idRol}
         [HttpGet("{email}/{idRol}")]
         public async Task<ActionResult<RolUsuario>> GetById(string email, int idRol)

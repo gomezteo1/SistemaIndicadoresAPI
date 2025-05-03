@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using SistemaIndicadoresAPI.Data;
 using SistemaIndicadoresAPI.Repositories;
+using System.Security.Claims;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -30,6 +31,9 @@ builder.Services.AddDbContext<SistemaIndicadoresContext>(options =>
 // 🚀 Controladores
 builder.Services.AddControllers();
 
+// 🛡️ Autorización
+builder.Services.AddAuthorization(); // ✅ RECOMENDADO
+
 // 🔐 Autenticación JWT
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -47,9 +51,13 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                     builder.Configuration["Jwt:Key"]
                     ?? throw new InvalidOperationException("JWT Key is missing in configuration.")
                 )
-            )
+            ),
+            RoleClaimType = ClaimTypes.Role // ✅ NECESARIO para que [Authorize(Roles = "...")] funcione
         };
     });
+
+// 💡 Inyectar HttpClient
+builder.Services.AddHttpClient(); // Esta línea agrega el servicio HttpClient
 
 // 🛠️ Construcción de la app
 var app = builder.Build();

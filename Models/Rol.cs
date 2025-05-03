@@ -8,4 +8,6 @@ public class Rol
     [Required]
     [MaxLength(200)]
     public required string Nombre { get; set; }
+
+    public ICollection<RolUsuario> RolUsuarios { get; set; } = new List<RolUsuario>();
 }

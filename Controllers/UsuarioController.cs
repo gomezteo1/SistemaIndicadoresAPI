@@ -6,6 +6,7 @@ using SistemaIndicadoresAPI.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace SistemaIndicadoresAPI.Controllers
 {
@@ -14,11 +15,39 @@ namespace SistemaIndicadoresAPI.Controllers
     public class UsuarioController : ControllerBase
     {
         private readonly SistemaIndicadoresContext _context;
+        private readonly HttpClient _httpClient;
 
-        public UsuarioController(SistemaIndicadoresContext context)
+        public UsuarioController(SistemaIndicadoresContext context, HttpClient httpClient)
         {
             _context = context;
+            _httpClient = httpClient;
+
+            // Configura la URL base de la API
+            _httpClient.BaseAddress = new Uri("http://localhost:7222/");
         }
+
+        // GET: api/Usuario/{email}
+        [HttpGet("{email}")]
+        public async Task<ActionResult<Usuario>> GetUsuario(string email)
+        {
+            var usuario = await _context.Usuario
+         .FirstOrDefaultAsync(u => u.Email == email);
+
+            if (usuario == null)
+            {
+                return NotFound(new { message = "Usuario no encontrado" });
+            }
+
+            // Obtener los roles del usuario directamente desde el contexto
+            var rolesUsuario = await _context.RolUsuario
+                .Where(ru => ru.FkEmail == email)
+                .ToListAsync();
+
+            usuario.RolUsuarios = rolesUsuario;
+
+            return usuario;
+        }
+
 
         // GET: api/Usuario
         [HttpGet]
@@ -27,19 +56,8 @@ namespace SistemaIndicadoresAPI.Controllers
             return await _context.Usuario.ToListAsync();
         }
 
-        // GET: api/Usuario/{email}
-        [HttpGet("{email}")]
-        public async Task<ActionResult<Usuario>> GetUsuario(string email)
-        {
-            var usuario = await _context.Usuario.FindAsync(email);
 
-            if (usuario == null)
-            {
-                return NotFound();
-            }
 
-            return usuario;
-        }
 
         // POST: api/Usuario
         [HttpPost]
@@ -80,7 +98,7 @@ namespace SistemaIndicadoresAPI.Controllers
 
             return NoContent();
         }
-        
+
         [HttpGet("login/{email}")]
         public async Task<ActionResult<Usuario>> LoginUsuario(string email)
         {
@@ -93,7 +111,7 @@ namespace SistemaIndicadoresAPI.Controllers
 
             return usuario;
         }
-        
+
         // DELETE: api/Usuario/{email}
         [HttpDelete("{email}")]
         public async Task<IActionResult> DeleteUsuario(string email)

@@ -56,8 +56,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-// 💡 Inyectar HttpClient
-builder.Services.AddHttpClient(); // Esta línea agrega el servicio HttpClient
+
 
 // 🛠️ Construcción de la app
 var app = builder.Build();
